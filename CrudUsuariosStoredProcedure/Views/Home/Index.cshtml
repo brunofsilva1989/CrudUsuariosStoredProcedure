@@ -4,9 +4,26 @@
     ViewBag.Title = "Index";
 }
 
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-sucess text-dark" role="alert">
+        @TempData["MensagemSucesso"]
+    </div>    
+}
 
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger text-dark" role="alert">
+        @TempData["MensagemErro"]
+    </div>
+}
 
 <div class="container">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Regitstros de Usuários</h1>
+        <a asp-action="Cadastrar" asp-controller="Home" class="btn btn-success">Cadastrar Usuários</a>
+    </div>
     <table class="table table-hover table-bordered mt-5">
         <thead class="table-dark">
             <tr>
@@ -14,20 +31,29 @@
                 <th>Nome</th>
                 <th>Sobrenome</th>
                 <th>Email</th>
-                <th>Cargo</th>                
+                <th>Cargo</th> 
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @if (Model.Count() > 0)
             {
-                <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Nome</td>
-                    <td>@item.Sobrenome</td>
-                    <td>@item.Email</td>
-                    <td>@item.Cargo</td>                    
-                </tr>
-            }
+                @foreach (var usuarios in Model)
+                {
+                    <tr>
+                        <td>@usuarios.Id</td>
+                        <td>@usuarios.Nome</td>
+                        <td>@usuarios.Sobrenome</td>
+                        <td>@usuarios.Email</td>
+                        <td>@usuarios.Cargo</td>
+                        <td>
+                            <a asp-action="Detalhes" asp-controller="Home" asp-route-id="@usuarios.Id" class="btn btn-warning">Detalhes</a>
+                            <a asp-action="Editar" asp-controller="Home" asp-route-id="@usuarios.Id" class="btn btn-primary">Editar</a>
+                            <a asp-action="Remover" asp-controller="Home" asp-route-id="@usuarios.Id" class="btn btn-danger">Remover</a>
+                        </td>
+                    </tr>
+                }
+            }            
         </tbody>
 
     </table>

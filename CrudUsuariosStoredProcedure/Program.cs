@@ -1,7 +1,11 @@
+using CrudUsuariosStoredProcedure.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<DataAccess>();
 
 var app = builder.Build();
 
