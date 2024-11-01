@@ -42,6 +42,7 @@ Clone o repositório:
 bash
 Copiar código
 git clone https://github.com/brunofsilva1989/CrudUsuariosStoredProcedure.git
+
 Configure a conexão com o SQL Server no arquivo appsettings.json.
 Crie as stored procedures necessárias no banco de dados, conforme descrito na documentação do projeto.
 Execute o projeto no Visual Studio ou .NET CLI.
