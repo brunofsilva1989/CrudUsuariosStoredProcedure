@@ -7,9 +7,15 @@ namespace CrudUsuariosStoredProcedure.Data
 {
     public class DataAccess
     {
-
+        #region Constantes
         const string LISTAR_USUARIO = "[dbo].[PR_LISTAR_USUARIOS]";
+        const string CADASTRAR_USUARIO = "[dbo].[PR_INSERIR_USUARIOS]";
+        const string LISTAR_USUARIO_ID = "[dbo].[PR_LISTAR_USUARIO_ID]";
+        const string EDITAR_USUARIO = "[dbo].[PR_EDITAR_USUARIOS]";
+        const string REMOVER_USUARIO = "[dbo].[PR_REMOVER_USUARIO]";
+        #endregion
 
+        #region Conexão com o banco de dados
         SqlConnection _connection = null;
         SqlCommand _command = null;
         public static IConfiguration? Configuration { get; set; }
@@ -23,7 +29,14 @@ namespace CrudUsuariosStoredProcedure.Data
 
             return Configuration.GetConnectionString("DefaultConnection");
         }
+        #endregion
 
+        #region Métodos
+
+        /// <summary>
+        /// Método responsável por listar os usuários interagindo com o banco de dados
+        /// </summary>
+        /// <returns></returns>
         public List<Usuario> ListarUsuarios()
         {
             List<Usuario> usuarios = new List<Usuario>();
@@ -56,6 +69,11 @@ namespace CrudUsuariosStoredProcedure.Data
             return usuarios;
         }
 
+        /// <summary>
+        /// Método responsável por cadastrar um usuário no banco de dados
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <returns></returns>
         public bool CadastrarUsuario(Usuario usuario)
         {
             int id = 0;
@@ -64,7 +82,7 @@ namespace CrudUsuariosStoredProcedure.Data
             {
                 _command = _connection.CreateCommand();
                 _command.CommandType = CommandType.StoredProcedure;
-                _command.CommandText = "[dbo].[PR_INSERIR_USUARIOS]";
+                _command.CommandText = CADASTRAR_USUARIO;
 
                 _command.Parameters.AddWithValue("@NOME", usuario.Nome);
                 _command.Parameters.AddWithValue("@SOBRENOME", usuario.Sobrenome);
@@ -79,6 +97,11 @@ namespace CrudUsuariosStoredProcedure.Data
             return id > 0 ? true : false;
         }
 
+        /// <summary>
+        /// Método responsável por buscar um usuário por id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Usuario BuscarUsuarioPorId(int id)
         {
             Usuario usuario = new Usuario();
@@ -87,7 +110,7 @@ namespace CrudUsuariosStoredProcedure.Data
             {
                 _command = _connection.CreateCommand();
                 _command.CommandType = CommandType.StoredProcedure;
-                _command.CommandText = "[dbo].[PR_LISTAR_USUARIO_ID]";
+                _command.CommandText = LISTAR_USUARIO_ID;
 
                 _command.Parameters.AddWithValue("@ID", id);
 
@@ -110,6 +133,11 @@ namespace CrudUsuariosStoredProcedure.Data
 
         }
 
+        /// <summary>
+        /// Método responsável por editar um usuário no banco de dados
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <returns></returns>
         public bool EditarUsuario(Usuario usuario)
         {
 
@@ -119,7 +147,7 @@ namespace CrudUsuariosStoredProcedure.Data
             {
                 _command = _connection.CreateCommand();
                 _command.CommandType = CommandType.StoredProcedure;
-                _command.CommandText = "[dbo].[PR_EDITAR_USUARIOS]";
+                _command.CommandText = EDITAR_USUARIO;
 
                 _command.Parameters.AddWithValue("@ID", usuario.Id);
                 _command.Parameters.AddWithValue("@NOME", usuario.Nome);
@@ -135,6 +163,11 @@ namespace CrudUsuariosStoredProcedure.Data
             return id > 0 ? true : false;
         }
 
+        /// <summary>
+        /// Método responsável por remover um usuário do banco de dados
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool RemoverUsuario(int id)
         {
             var result = 0;
@@ -143,7 +176,7 @@ namespace CrudUsuariosStoredProcedure.Data
             {
                 _command = _connection.CreateCommand();
                 _command.CommandType = CommandType.StoredProcedure;
-                _command.CommandText = "[dbo].[PR_REMOVER_USUARIO]";
+                _command.CommandText = REMOVER_USUARIO;
 
                 _command.Parameters.AddWithValue("@ID", id);
 
@@ -153,7 +186,8 @@ namespace CrudUsuariosStoredProcedure.Data
             }
 
             return result > 0 ? true : false;
-        }   
+        }
+        #endregion
 
     }
 }

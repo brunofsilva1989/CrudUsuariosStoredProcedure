@@ -15,11 +15,13 @@ namespace CrudUsuariosStoredProcedure.Controllers
             _dataAccess = dataAccess;
         }
 
-
         #region Views
+        /// <summary>
+        /// Método responsável por view e listar os usuários
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
-
             try
             {
                 var usuarios = _dataAccess.ListarUsuarios();
@@ -30,14 +32,22 @@ namespace CrudUsuariosStoredProcedure.Controllers
                 TempData["MensagemErro"] = "Ocorreu um erro na criação do usuário";
                 return View();
             }
-
         }
 
+        /// <summary>
+        /// Método responsável por chamar a view de cadastro
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Cadastrar()
         {
             return View();
         }
 
+        /// <summary>
+        /// Método responsável por chamar a view de edição
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult Editar(int id)
         {
             //Responsável por buscar o usuário pelo id e 
@@ -47,12 +57,22 @@ namespace CrudUsuariosStoredProcedure.Controllers
             return View(usuario);
         }
 
+        /// <summary>
+        /// Método responsável por chamar a view de detalhes
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult Detalhes(int id)
         {
             var usuario = _dataAccess.BuscarUsuarioPorId(id);
             return View(usuario);
         }
 
+        /// <summary>
+        /// Método responsável por chamar a view de remoção
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult Remover(int id)
         {
             var result = _dataAccess.RemoverUsuario(id);
@@ -73,6 +93,11 @@ namespace CrudUsuariosStoredProcedure.Controllers
 
 
         #region Métodos
+        /// <summary>
+        /// Método responsável por cadastrar um usuário
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Cadastrar(Usuario usuario)
         {
@@ -105,6 +130,11 @@ namespace CrudUsuariosStoredProcedure.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por editar um usuário
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Editar(Usuario usuario)
         {
